@@ -1,15 +1,50 @@
-#ELABORAZIONE RASTER PER CALCOLO MEDIE E MASSIMI AREALI 
+#!/usr/bin/Rscript
+#ELABORAZIONE RASTER PER CALCOLO MEDIE E MASSIMI AREALI SU AREE DEFINITE DA SHP
+# shp contenuti in sottodirectory dir info 
+# 
+
+# librerie richieste
 library(raster)
 library(sp)
 library(rgdal)
-#prova
 
-giorno=readline("Che giorno vuoi visualizzare? (solo numero formato gg) ")
-orario=readline("Che orario vuoi visualizzare? (solo orario formato hh) ")
-shp=readline("Province o Aree Omogenee? (digita province o aree): ")
+# argomenti
+stringa_data_e_ora <- character()
+n_ore <- integer()
+aree <- character()
+args = commandArgs(trailingOnly=TRUE)
+if (length(args)!=3) { 
+	print("Numero argomenti non corretto!")
+	print("uso: Rscript lapris_test.R aaaammgghh n aree")
+	q()
+	}
+args<-c("2018052718", 24,"Allerta") 
+print(args)
+stringa_data_e_ora<-as.character(args[1])
+print(stringa_data_e_ora)
+n_ore <- args[2]
+print(n_ore)
+aree <- args[3]
+print(aree)
+
+rstr <- paste("dati/","cumulata_oraria_prisma_",stringa_data_e_ora,".txt",sep="")
+
+#Compongo stringhe nomi file
+file_shp <- paste('info/',aree,".shp", sep="")
+print(file_shp)
+rstr <- paste("dati/","cumulata_oraria_prisma_",stringa_data_e_ora,".txt",sep="")
+print(rstr)
+
+# lancio da CMD di Windoos con questo comando C:\"Program Files"\R\R-3.5.1\bin\Rscript.exe lapris_test.R 201801010101 3 Allerta
+
+
+#giorno=readline("Che giorno vuoi visualizzare? (solo numero formato gg) ")
+#orario=readline("Che orario vuoi visualizzare? (solo orario formato hh) ")
+#shp=readline("Province o Aree Omogenee? (digita province o aree): ")
 ###################### DATI DI CONFIGURAZIONE (COLORI E CLASSI) ###################################
 
 
+ 
 
 #scala colore per le soglie
 bianco		   <- rgb(255/255, 255/255, 255/255, 1)
@@ -33,24 +68,90 @@ classi_legenda <- seq(0,150,11.53846)
 labels <- c('0','0.1', '0.5', '1', '2', '4', '6', '10', '20', '40', '60', '80', '100','150 +')
 
 ############################################ APRO LO SHAPEFILE ###########################################################
-if(shp == "province"){
-	shp <- shapefile(".\\shp\\Province_2015_polygon.shp") 
-	n_aree = 12
-	scelta_labels = "province"} else {
-	shp <- shapefile(".\\shp\\Aree_2015_UTM.shp")
-	n_aree = 14
-	scelta_labels = "aree"
+#if(shp == "province"){
+#	shp <- shapefile(".\\shp\\Province_2015_polygon.shp") 
+#	n_aree = 12
+#	scelta_labels = "province"} else {
+#	shp <- shapefile(".\\shp\\Aree_2015_UTM.shp")
+#	n_aree = 14
+#	scelta_labels = "aree"
+#	}
+
+if(file_test("-f",file_shp)){ 
+	shp<- shapefile(file_shp)
+	n_aree <- length(shp@data[,1])
+	} else {
+	print("Errore: non accedo allo shapefile")
 	}
 
 ############################################ APRO IL RASTER SCELTO###########################################################
 
-raster <- raster(paste(".\\prisma27e28maggio2018\\cumulata_oraria_prisma_201805",giorno,orario,".txt",sep=""))
+if(file_test("-f",rstr)){ 
+	rstr_finale <- raster(rstr)
+	} else {
+	print("Errore: non accedo al raster iniziale")
+	}
+#print(Sys.getlocale(category="LC_ALL"))
+
+#elaborazione per definire il raster somma
+ore<-0
+for (ore in 1:as.numeric(n_ore)) {
+	print(ore)
+	data_inizio <- as.POSIXct(strptime(stringa_data_e_ora,"%Y%m%d%H"))
+	print(data_inizio)
+	data_fine<-data_inizio+60*60*ore
+	print(data_fine)
+	stringa_data_incremento<-format(data_fine,"%Y%m%d%H")
+	rstr<-paste("dati/","cumulata_oraria_prisma_",stringa_data_incremento,".txt",sep="")
+	print(rstr)
+	rstr_finale <- rstr_finale +  raster(rstr)
+	}
+
+
   
 par(mar = rep(2, 4))
 #Grafico il raster e lo shp dedicato
-plot(raster, breaks=classi, col = scala_colore, legend = FALSE, axes = FALSE)
+png(filename=paste("dati_su_area_",stringa_data_e_ora,"_",n_ore,".png",sep=""))
+plot(rstr_finale, breaks=classi, col = scala_colore, legend = FALSE, axes = FALSE)
 plot(shp, add=TRUE)
-plot(raster, breaks=classi_legenda, legend.only=TRUE, col=scala_colore, legend.width=1, legend.shrink=1, axis.args=list(at=classi_legenda,labels=labels, tick=FALSE))
+plot(rstr_finale, breaks=classi_legenda, legend.only=TRUE, col=scala_colore, legend.width=1, legend.shrink=1, axis.args=list(at=classi_legenda,labels=labels, tick=FALSE))
+#invisible(text(coordinates(shp), labels=as.character(shp@data$CODICE_IM), cex=0.8))
+dev.off()
+
+#calcolo Medie e percentili su Area
+MEDIA<-extract(rstr_finale,shp,fun=mean,na.rm=T)
+shp@data<-data.frame(shp@data,MEDIA)
+PERC<-extract(rstr_finale,shp,fun=quantile,na.rm=T)
+MAX<-extract(rstr_finale,shp,fun=max,na.rm=T)
+shp@data<-data.frame(shp@data,MAX)
+
+png(filename=paste("Media_su_area_",stringa_data_e_ora,"_",n_ore,".png",sep=""))
+plot(shp,col=scala_colore[findInterval(shp@data$MEDIA,classi)+1])
+invisible(text(coordinates(shp), labels=as.character(shp@data$CODICE_IM), cex=0.8))
+dev.off()
+
+png(filename=paste("Massimo_su_area_",stringa_data_e_ora,"_",n_ore,".png",sep=""))
+plot(shp,col=scala_colore[findInterval(shp@data$MEDIA,classi)+1])
+invisible(text(coordinates(shp), labels=as.character(shp@data$CODICE_IM), cex=0.8))
+dev.off()
+
+
+
+#vedere qui per grafico:
+#http://rspatial.r-forge.r-project.org/gallery/#fig13.R
+# e qui per tutorial
+#https://www.neonscience.org/dc-shapefile-attributes-r
+#https://www.neonscience.org/dc-open-shapefiles-r
+#https://www.neonscience.org/dc-shapefile-attributes-r
+
+# comando per aggregare raster su poligoni con funzione fun=...
+# extract(rstr_finale,shp,fun=quantile,na.rm=T)
+# shp@data<-data.frame(shp@data, vettore che voglio io)
+
+
+
+ q()
+
 
 ############################################ MEDIA E SOMMA ###########################################################
 scelta_math=readline("Vuoi massimo o media delle aree scelte? ")
