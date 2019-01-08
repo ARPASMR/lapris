@@ -85,9 +85,9 @@ if(file_test("-f",rstr)){
 
 #elaborazione per definire il raster somma
 n_ore <- as.numeric(n_ore)
-n_ore <- n_ore - 1 #Sommo il numero di ore scelte in base all'orario di partenza (che già contiene la cumulata di 1 ora)
+n_ore_mod <- n_ore - 1 #Sommo il numero di ore scelte in base all'orario di partenza (che già contiene la cumulata di 1 ora)
 
-for (ore in 1:as.numeric(n_ore)) {
+for (ore in 1:as.numeric(n_ore_mod)) {
 	print(ore)
 	data_inizio <- as.POSIXct(strptime(stringa_data_e_ora,"%Y%m%d%H"),"GMT")
 	print(data_inizio)
