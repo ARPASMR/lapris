@@ -2,8 +2,11 @@
 progetto obiettivo 2018 LAmpinet e PRISma - Fase 4
 
 STRUTTURA SCRIPT
+
 prisma_cumula.R
+
 /dati (file txt con dati di input)
+
 /info (shapefiles)
 
 
