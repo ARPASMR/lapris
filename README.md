@@ -2,7 +2,7 @@
 Progetto obiettivo 2018 LAmpinet e PRISma - Fase 4
 
 ****************************************************
-******************STRUTTURA SCRIPT******************
+******************STRUTTURA DIRECTORY******************
 
 prisma_cumula.R
 
