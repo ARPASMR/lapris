@@ -1,6 +1,7 @@
 FROM arpasmr/r-base
 RUN apt-get update
 RUN apt-get install -y s3cmd
+RUN apt-get install python3
 RUN R -e "install.packages('sp',repos='http://cran.us.r-project.org')"
 RUN R -e "install.packages('grid',repos='http://cran.us.r-project.org')"
 RUN R -e "install.packages('gridExtra',repos='http://cran.us.r-project.org')"

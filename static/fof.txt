@@ -1,0 +1,4 @@
+./static/dati_su_area_2018052718_12.png
+./static/Massimo_su_area_2018052718_12.png
+./static/Media_su_area_2018052718_12.png
+./img/Tabella_2018052718_12.png
