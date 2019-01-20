@@ -1,8 +1,14 @@
 # lapris
 _Progetto obiettivo 2018 LAmpinet e PRISma - Fase 4_
-L'applicazione consente di realizzare delle immagini che riguardano le cumulate del processo prisma per scadenze prefissate o per scadenze impostate dall'utente.
 
-# struttura directory
+L'applicazione consente di aggregare le stime di precipitazione prodotte dal processo prisma (interpolazione ottimanle radar e pluviometri su grigliato UTM 1kmx1km) su aree a scelta dell'utente utilizzando media e percentili standard (min,10,25,50,75,90,max); in output fornisce 4 immagini: campo totale cumulato in overlay con le areee scelte, media e massimo su aree scelte, tabella con valori dei  percentili sulle aree scelte. 
+
+# Uso in locale
+- scaricare repository
+- salvare nella cartella locale dati/ i dati prodotti da prisma del periodo di interesse; i dati si trovano sul server mediano, /home/meteo/dati/prisma/ascii, senza modificare il nome dei file (contiene le infomazioni sulla data e ora dei dati contenuti)
+- nella cartella info sono contenuti già alcuni shapefile con i poligoni su cui aggregare le stime di precipitazione; si possono inserire altri shapefile nella stessa cartella
+
+# struttura directory da replicare in locale
 prisma_cumula.R
 _file di appoggio_
 
