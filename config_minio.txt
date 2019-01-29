@@ -1,0 +1,4 @@
+[default]
+access_key=ACCESS_KEY
+secret_key=SECRET_KEY
+host_base=10.10.99.135:9000

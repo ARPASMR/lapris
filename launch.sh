@@ -4,4 +4,8 @@
 # 2. creare le immagini
 # 3. copiare le immagioni su minio
 # 4. far vedere le immagini
-ls
+./launch_flash.sh & 
+while [ 1 ]
+do
+   s3cmd --config= get s3://prisma/dati/cumulata_oraria_prisma_$(date "%Y%m%d").txt 
+done
