@@ -24,6 +24,7 @@ do
    Rscript prisma_cumula.R ${yesterday}00 24 Allerta CODICE_IM > prisma_cumula_${yesterday}.log
    mv *.png img/
   fi
+  ls -L ./static/*.png > ./static/fof.txt
   find *.log -mtime +7 -exec rm {} \; 
   sleep 3600
 done
