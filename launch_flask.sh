@@ -1,2 +1,2 @@
 #!/bin/bash
-python mostra.py
+python3 mostra.py

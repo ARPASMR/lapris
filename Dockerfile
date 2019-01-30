@@ -9,11 +9,13 @@ RUN R -e "install.packages('grid',repos='http://cran.us.r-project.org')"
 RUN R -e "install.packages('gridExtra',repos='http://cran.us.r-project.org')"
 RUN apt-get install -y python3-pip
 RUN pip3 install minio
-FROM intermediate
+RUN pip3 install flask
+FROM intermediate as final
 WORKDIR /usr/src/myapp
 COPY *.R ./
 COPY *.py ./
 COPY *.sh ./
 COPY info/* info/
+COPY config_minio.txt ./
 RUN mkdir dati
 #CMD [".launch.sh","7200"]
