@@ -18,4 +18,5 @@ COPY *.sh ./
 COPY info/* info/
 COPY config_minio.txt ./
 RUN mkdir dati
+RUN mkdir img
 #CMD [".launch.sh","7200"]
