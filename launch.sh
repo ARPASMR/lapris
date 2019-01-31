@@ -22,9 +22,9 @@ do
    done
    #eseguo lo script reindirizzando nei log
    Rscript prisma_cumula.R ${yesterday}00 24 Allerta CODICE_IM > prisma_cumula_${yesterday}.log
-   mv *.png img/
+   mv *.png static/
   fi
-  ls -L ./img/*.png > ./static/fof.txt
+  ls -L ./static/*.png > ./static/fof.txt
   find *.log -mtime +7 -exec rm {} \;
   find dati/*.txt -mtime +7 -exec rm {} \;
   sleep 3600
