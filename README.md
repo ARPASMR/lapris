@@ -8,7 +8,7 @@ L'applicazione consente di aggregare le stime di precipitazione prodotte dal pro
 - salvare nella cartella locale dati/ i dati prodotti da prisma del periodo di interesse; i dati si trovano sul server mediano, /home/meteo/dati/prisma/ascii, senza modificare il nome dei file (contiene le infomazioni sulla data e ora dei dati contenuti)
 - nella cartella info sono contenuti già alcuni shapefile con i poligoni su cui aggregare le stime di precipitazione; si possono inserire altri shapefile nella stessa cartella
 
-# struttura directory da replicare in locale
+## struttura directory da replicare in locale
 prisma_cumula.R
 _file di appoggio_
 
@@ -16,7 +16,7 @@ _file di appoggio_
 
 /info (shapefiles)
 
-# uso
+## uso
 
 Lancio da CMD di Windows con questo comando 
 ```
@@ -34,7 +34,7 @@ Rscript prisma_cumula.R 2018052718 12 Allerta CODICE_IM
 
 ATTENZIONE: Il periodo di cumulazione è espresso in UTC
 
-# output
+## output
  - Mappa con dati cumulati disaggregati su shapefile scelto
  - Mappa con media areale
  - Mappa con massimo areale
@@ -45,3 +45,14 @@ ATTENZIONE: Il periodo di cumulazione è espresso in UTC
 2. il container copia a orari prestabiliti il file dal bucket alla directory _dati_, elabora il file eproduce le immagini
 3. le immagini viengono servite via Flask (_completamente da fare_)
 4. le immagini vengono archiviate nel bucket di minio
+
+# uso dall'interno del container per periodo arbitrario
+1. da UCP lanciare una console del container
+2. copiare i file da minio tramite s3cmd
+```
+s3cmd --condig=config_file.txt get s3://
+```
+3. dalla console eseguire il comando 
+```
+Rscript prisma_cumula.R AAAAMMGGHH N <shapefile> <campo>
+```
