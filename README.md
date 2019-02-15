@@ -58,3 +58,7 @@ dove:
 - N           = numero di ore di cumulata<br>
 - _shapefile_ = shapefile dell'area di cumulata<br>
 - _label_     = campo dello shapefile per la cumulata <br>
+3. se si lancia il comando senza argomenti viene eseguito di default:
+```
+recupero.sh yesterday 00 24 Allerta CODICE_IM
+```
