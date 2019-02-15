@@ -48,11 +48,13 @@ ATTENZIONE: Il periodo di cumulazione è espresso in UTC
 
 # uso dall'interno del container per periodo arbitrario
 1. da UCP lanciare una console del container
-2. copiare i file da minio tramite s3cmd
+2. lanciare il comando
 ```
-s3cmd --condig=config_file.txt get s3://
+recupero.sh AAAAMMGG HH N <shapefile> <label>
 ```
-3. dalla console eseguire il comando 
-```
-Rscript prisma_cumula.R AAAAMMGGHH N <shapefile> <campo>
-```
+dove:
+AAAAMMGG    = data di inizio della cumulata
+HH          = ora di inizio della cumulata
+N           = numero di ore di cumulara
+<shapefile> = shapefile dell'area di cumulata
+<label>     = campo dello shapefile per la cumulata 
