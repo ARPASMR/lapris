@@ -41,12 +41,15 @@ ATTENZIONE: Il periodo di cumulazione è espresso in UTC
  - Tabella riassuntiva con statistiche su aree
 
 # funzionamento come container
+Il container è lanciato come servizio da UCP: automaticamente esegue il file _launch.sh_ 
 1. esiste un bucket su minio diviso in dati e immagini; nella cartella dati vengono copiati i file in uscita da prisma _(to be implemented)_
-2. il container copia a orari prestabiliti il file dal bucket alla directory _dati_, elabora il file eproduce le immagini
-3. le immagini viengono servite via Flask (_completamente da fare_)
+2. il container copia a orari prestabiliti il file dal bucket alla directory _dati_, elabora il file e produce le immagini
+3. le immagini viengono servite via Flask 
 4. le immagini vengono archiviate nel bucket di minio
 
-# uso dall'interno del container per periodo arbitrario
+# uso dall'interno del container per periodo arbitrario (_recupero.sh_)
+Poichè il servizio viene eseguito alle 5 del mattino ma il container è sempre attivo ma in fase _quiescente_, è possibile eseguire il programma R direttamente nel container senza interferire con il normale funzionamento del servizio. <br> Questo comporta il vantaggio di non dover installare niente sul proprio pc, Successivamente all'esecuzione si potranno scaricare le mappe o da _minio_ o direttamente dal sito.
+Le istruzioni sono le seguenti:
 1. da UCP lanciare una console del container
 2. lanciare il comando
 ```
