@@ -52,9 +52,9 @@ ATTENZIONE: Il periodo di cumulazione è espresso in UTC
 ```
 recupero.sh AAAAMMGG HH N <shapefile> <label>
 ```
-dove:</B>
-AAAAMMGG    = data di inizio della cumulata<br>
-HH          = ora di inizio della cumulata<br>
-N           = numero di ore di cumulata<br>
-_shapefile_ = shapefile dell'area di cumulata<br>
-_label_     = campo dello shapefile per la cumulata <br>
+dove:
+- AAAAMMGG    = data di inizio della cumulata<br>
+- HH          = ora di inizio della cumulata<br>
+- N           = numero di ore di cumulata<br>
+- _shapefile_ = shapefile dell'area di cumulata<br>
+- _label_     = campo dello shapefile per la cumulata <br>
