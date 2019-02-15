@@ -2,6 +2,7 @@ debug=true
 window_size=900,700
 file_of_filenames=./static/fof.txt
 num_frames=9
+wheel_frames = true
 base_starting_number=1
 check_image_size = f
 controls = startstop, step, looprock, zoom, refresh
