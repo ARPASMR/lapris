@@ -37,7 +37,7 @@ Campo='CODICE_IM'
       Campo=$5
    fi
    Rscript prisma_cumula.R ${yesterday}${H} $N $Shp $Campo > prisma_cumula_${yesterday}.log
-   $S3CMD put *.png s3://lapris
+   $S3CMD put *.png s3://prisma
    mv *.png static/
 
   ls -L ./static/*.png > ./static/fof.txt
