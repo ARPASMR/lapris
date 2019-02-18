@@ -42,6 +42,7 @@ print(rstr)
 
 # lancio da CMD di Windoos con questo comando C:\"Program Files"\R\R-3.5.1\bin\Rscript.exe prisma_cumula.R 201801010101 3 Allerta CODICE_IM
 
+n_ore <- as.numeric(n_ore)
 
 ###################### DATI DI CONFIGURAZIONE (COLORI E CLASSI) ###################################
 
@@ -59,11 +60,21 @@ rosso          <- rgb(255/255, 25/255, 0/255, 1)
 violetto       <- rgb(175/255, 0/255, 220/255, 1)
 violascuro     <- rgb(130/255, 0/255, 220/255, 1)
 bluscuro       <- rgb(100/255, 0/255, 220/255, 1)
+ocra		   <- rgb(207/255, 132/255, 67/255, 1)
+marrone        <- rgb(138/255, 90/255, 44/255, 1)
 
-scala_colore <- c(bianco,grigino,grigio,azzurro,verdescuro,verdino,giallo,arancio,arancioscuro,rosso,violetto,violascuro,bluscuro)
-classi <- c(0, 0.1, 0.5, 1, 2, 4, 6, 10, 20, 40, 60, 80, 100,150)
-classi_legenda <- seq(0,150,11.53846)
-labels <- c('0','0.1', '0.5', '1', '2', '4', '6', '10', '20', '40', '60', '80', '100','150 +')
+scala_colore <- c(bianco,grigino,grigio,azzurro,verdescuro,verdino,giallo,arancio,arancioscuro,rosso,violetto,violascuro,bluscuro,ocra,marrone)
+classi <- c(0, 0.1, 0.5, 1, 2, 4, 6, 10, 20, 40, 60, 80, 100, 150, 200, 250)
+classi <- classi * floor((n_ore-1)/24+1) #adattamento scala in base al numero di ore, se maggiore di 24 si moltiplica per 2, dopo 48 per 3 etc etc ...
+classi_legenda <- seq(0,250,16.66666)
+classi_legenda <- classi_legenda * floor((n_ore-1)/24+1) #adattamento classi_legenda in base al numero di ore, se maggiore di 24 si moltiplica per 2, dopo 48 per 3 etc etc ...
+
+#Ridefinizione labels in base al numero di ore, devo prima trasformarle in numeri e poi nuovamente in caratteri.
+labels <- c('0','0.1', '0.5', '1', '2', '4', '6', '10', '20', '40', '60', '80', '100','150', '200', '250')
+labels <- as.numeric(labels)
+labels <- labels * floor((n_ore-1)/24+1)
+labels <- as.character(labels)
+
 
 ############################################ APRO LO SHAPEFILE ###########################################################
 
@@ -84,7 +95,7 @@ if(file_test("-f",rstr)){
 #print(Sys.getlocale(category="LC_ALL"))
 
 #elaborazione per definire il raster somma
-n_ore <- as.numeric(n_ore)
+
 n_ore_mod <- n_ore - 1 #Sommo il numero di ore scelte in base all'orario di partenza (che già contiene la cumulata di 1 ora)
 
 for (ore in 1:as.numeric(n_ore_mod)) {
@@ -104,11 +115,11 @@ data_fine_mod <- data_fine + 60*60 #aggiungo un'ora per necessità grafiche del 
 
 par(mar = rep(2, 4))
 #Grafico il raster e lo shp dedicato
-png(filename=paste("dati_su_area_",stringa_data_e_ora,"_",n_ore,".png",sep=""),width=800, height=600)
+png(filename=paste("dati_su_area_",stringa_data_e_ora,"_",n_ore,".png",sep=""), width=1600, height=1200)
 plot(rstr_finale, breaks=classi, col = scala_colore, legend = FALSE, axes = FALSE)
 plot(shp, add=TRUE)
-plot(rstr_finale, breaks=classi_legenda, legend.only=TRUE, col=scala_colore, legend.width=1, legend.shrink=1, axis.args=list(at=classi_legenda,labels=labels, tick=FALSE))
-title(main=paste("Precipitazioni cumulate dal", data_inizio,"al",data_fine_mod," (UTC)"),adj=0)
+plot(rstr_finale, breaks=classi_legenda, legend.only=TRUE, col=scala_colore, legend.width=1, legend.shrink=1, axis.args=list(at=classi_legenda,labels=labels, tick=FALSE, cex.axis=1.8))
+title(main=paste("Precipitazioni cumulate dal", data_inizio,"al",data_fine_mod," (UTC)"),adj=0, cex.main=2.2)
 #invisible(text(coordinates(shp), labels=as.character(shp@data$CODICE_IM), cex=0.8))
 dev.off()
 
@@ -139,7 +150,7 @@ colnames(table) <- c("AREA","MEDIA","MAX")
 table <- table[order(-table$MEDIA),]
 
 #Assegnazione "tema" per disegno tabella
-tt <- ttheme_default(base_size=10)
+tt <- ttheme_default(base_size=24)
 total_tt <- ttheme_default(base_size=16)
 
 #Creazione tabella totale con percentili e assegnazioni/ordinamenti
@@ -152,24 +163,24 @@ png(filename=paste("Tabella_",stringa_data_e_ora,"_",n_ore,".png",sep=""))
 grid.table(total_table,theme=total_tt, rows=NULL)
 
 ##################################################GRAFICI MEDIE E MASSIMI#################################################
-png(filename=paste("Media_su_area_",stringa_data_e_ora,"_",n_ore,".png",sep=""),width=800, height=600)
+png(filename=paste("Media_su_area_",stringa_data_e_ora,"_",n_ore,".png",sep=""),width=1600, height=1200)
 par(mar=c(2.1,8.1,2.1,2.1)) #Margini del grafico
 plot(shp,col=scala_colore[findInterval(shp@data$MEDIA,classi)])
-title(main=paste("Media precipitazioni cumulate dal", data_inizio,"al",data_fine_mod," (UTC)"),adj=0)
-plot(rstr_finale, breaks=classi_legenda, legend.only=TRUE, col=scala_colore, legend.width=1, legend.shrink=1, axis.args=list(at=classi_legenda,labels=labels, tick=FALSE))
-invisible(text(coordinates(shp), labels=as.character(shp[[nome_aree]]), cex=0.8))
-pushViewport(viewport(y=.70,x=.10, height=0.5)) #Posizionamento tabella
+title(main=paste("Media precipitazioni cumulate dal", data_inizio,"al",data_fine_mod," (UTC)"),adj=0, cex.main=2.2)
+plot(rstr_finale, breaks=classi_legenda, legend.only=TRUE, col=scala_colore, legend.width=1, legend.shrink=1, axis.args=list(at=classi_legenda,labels=labels, tick=FALSE, cex.axis=1.8))
+invisible(text(coordinates(shp), labels=as.character(shp[[nome_aree]]), cex=1.5))
+pushViewport(viewport(y=.75,x=.10, height=0.5)) #Posizionamento tabella
 grid.table(table,theme=tt, rows=NULL) #Disegno tabella
 dev.off()
 
-png(filename=paste("Massimo_su_area_",stringa_data_e_ora,"_",n_ore,".png",sep=""),width=800, height=600)
+png(filename=paste("Massimo_su_area_",stringa_data_e_ora,"_",n_ore,".png",sep=""),width=1600, height=1200)
 par(mar=c(2.1,8.1,2.1,2.1)) #Margini del grafico
 plot(shp,col=scala_colore[findInterval(shp@data$MAX,classi)])
-title(main=paste("Massimo precipitazioni cumulate dal", data_inizio,"al",data_fine_mod," (UTC)"),adj=0)
-plot(rstr_finale, breaks=classi_legenda, legend.only=TRUE, col=scala_colore, legend.width=1, legend.shrink=1, axis.args=list(at=classi_legenda,labels=labels, tick=FALSE))
-invisible(text(coordinates(shp), labels=as.character(shp[[nome_aree]]), cex=0.8))
+title(main=paste("Massimo precipitazioni cumulate dal", data_inizio,"al",data_fine_mod," (UTC)"),adj=0, cex.main=2.2)
+plot(rstr_finale, breaks=classi_legenda, legend.only=TRUE, col=scala_colore, legend.width=1, legend.shrink=1, axis.args=list(at=classi_legenda,labels=labels, tick=FALSE, cex.axis=1.8))
+invisible(text(coordinates(shp), labels=as.character(shp[[nome_aree]]), cex=1.5))
 table <- table[order(-table$MAX),] #Ordinamento in base al massimo
-pushViewport(viewport(y=.70,x=.10, height=0.5)) #Posizionamento tabella
+pushViewport(viewport(y=.75,x=.10, height=0.5)) #Posizionamento tabella
 grid.table(table,theme=tt, rows=NULL) #Disegno tabella
 dev.off()
 
