@@ -3,6 +3,8 @@ _Progetto obiettivo 2018 LAmpinet e PRISma - Fase 4_
 
 L'applicazione consente di aggregare le stime di precipitazione prodotte dal processo prisma (interpolazione ottimale di radar e pluviometri su grigliato UTM 1kmx1km) su aree a scelta dell'utente utilizzando media e percentili standard (min,10,25,50,75,90,max); in output fornisce 4 immagini: campo totale cumulato in overlay con le areee scelte, media e massimo su aree scelte, tabella con valori dei  percentili sulle aree scelte. 
 
+L'applicazione utilizza come visualizzazione il codice Hanis di Tom Whittaker: la configurazione e il funzionamento di dettaglio è descritto [qui](https://www.ssec.wisc.edu/hanis/index.html#framelabel)
+
 # Uso in locale
 - scaricare repository
 - salvare nella cartella locale dati/ i dati prodotti da prisma del periodo di interesse; i dati si trovano sul server mediano, /home/meteo/dati/prisma/ascii, senza modificare il nome dei file (contiene le infomazioni sulla data e ora dei dati contenuti)
