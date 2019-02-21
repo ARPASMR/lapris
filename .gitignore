@@ -1,2 +1,4 @@
 # ignora il seguente contenuto dalla copia su gut
 dati/**
+*.png
+test.sh
