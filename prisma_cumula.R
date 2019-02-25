@@ -9,6 +9,7 @@ library(sp)
 library(rgdal)
 library(grid)
 library(gridExtra)
+library(png)
 
 # argomenti
 stringa_data_e_ora <- character()
@@ -120,7 +121,6 @@ plot(rstr_finale, breaks=classi, col = scala_colore, legend = FALSE, axes = FALS
 plot(shp, add=TRUE)
 plot(rstr_finale, breaks=classi_legenda, legend.only=TRUE, col=scala_colore, legend.width=1, legend.shrink=1, axis.args=list(at=classi_legenda,labels=labels, tick=FALSE, cex.axis=1.8))
 title(main=paste("Precipitazioni cumulate dal", data_inizio,"al",data_fine_mod," (UTC)"),adj=0, cex.main=2.2)
-#invisible(text(coordinates(shp), labels=as.character(shp@data$CODICE_IM), cex=0.8))
 dev.off()
 
 #calcolo Medie e percentili su Area
@@ -161,6 +161,8 @@ total_table <- total_table[order(-shp@data$MEDIA),]
 #Creo png tabella totale
 png(filename=paste("Tabella_",stringa_data_e_ora,"_",n_ore,".png",sep=""))
 grid.table(total_table,theme=total_tt, rows=NULL)
+dev.off()
+
 
 ##################################################GRAFICI MEDIE E MASSIMI#################################################
 png(filename=paste("Media_su_area_",stringa_data_e_ora,"_",n_ore,".png",sep=""),width=1600, height=1200)
@@ -184,6 +186,22 @@ pushViewport(viewport(y=.75,x=.10, height=0.5)) #Posizionamento tabella
 grid.table(table,theme=tt, rows=NULL) #Disegno tabella
 dev.off()
 
+################################################## COMPOSITE FOR WEB #############################################à##
+
+#Lettura dei PNG già stampati e trasformazione in raster
+img1 <- as.raster(readPNG(paste("dati_su_area_",stringa_data_e_ora,"_",n_ore,".png",sep="")))
+img2 <- as.raster(readPNG(paste("Media_su_area_",stringa_data_e_ora,"_",n_ore,".png",sep="")))
+img3 <- as.raster(readPNG(paste("Massimo_su_area_",stringa_data_e_ora,"_",n_ore,".png",sep="")))
+img4 <- as.raster(readPNG(paste("Tabella_",stringa_data_e_ora,"_",n_ore,".png",sep="")))
+
+#Stampo un nuovo PNG componendo i 4 raster
+png(filename=paste("Composizione_",stringa_data_e_ora,"_",n_ore,".png",sep=""), width=1600, height=1200)
+par(mfrow=c(2,2),mai=c(0.1,0.1,0.1,0.1)) #Settaggio margini al minimo per una migliore resa grafica
+plot(img1)
+plot(img2)
+plot(img3)
+plot(img4)
+dev.off()
 
 
 #vedere qui per grafico:
