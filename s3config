@@ -1,0 +1,10 @@
+[default]
+access_key = ACCESS_KEY 
+host_base = 10.10.99.135:9000
+host_bucket = 10.10.99.135:9000/prisma
+human_readable_sizes = True
+secret_key = SECRET_KEY
+send_chunk = 65536
+server_side_encryption = False
+signature_v2 = False
+use_https = False

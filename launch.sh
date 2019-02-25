@@ -6,6 +6,14 @@
 # 4. far vedere le immagini
 S3CMD='s3cmd --config=config_minio.txt'
 ./launch_flash.sh & 
+# copio i file presenti in minio (solo ultima settimana)
+$S3CMD ls s3://prisma/ > elenco.txt
+tail -n 8 elenco.txt > elenco1.txt
+for i in $(cat elenco1.txt |awk '{ print $4; }');
+   do
+     s3cmd --config=config_minio.txt --force get $i static/
+   done
+   
 #endless loop
 while [ 1 ]
 do
@@ -22,6 +30,7 @@ do
    done
    #eseguo lo script reindirizzando nei log
    Rscript prisma_cumula.R ${yesterday}00 24 Allerta CODICE_IM > prisma_cumula_${yesterday}.log
+   $S3CMD put *.png s3://prisma
    mv *.png static/
   fi
   ls -L ./static/*.png > ./static/fof.txt
