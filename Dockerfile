@@ -7,6 +7,7 @@ RUN apt-get install -y python3
 RUN R -e "install.packages('sp',repos='http://cran.us.r-project.org')"
 RUN R -e "install.packages('grid',repos='http://cran.us.r-project.org')"
 RUN R -e "install.packages('gridExtra',repos='http://cran.us.r-project.org')"
+RUN R -e "install.packages('png',repos='http://cran.us.r-project.org')"
 RUN apt-get install -y python3-pip
 RUN pip3 install minio
 RUN pip3 install flask
