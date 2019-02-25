@@ -41,6 +41,7 @@ ATTENZIONE: Il periodo di cumulazione è espresso in UTC
  - Mappa con media areale
  - Mappa con massimo areale
  - Tabella riassuntiva con statistiche su aree
+ - Composite delle 4 precedenti immagini in un unico PNG per visualizzazione GHOST
 
 # funzionamento come container
 Il container è lanciato come servizio da UCP: automaticamente esegue il file _launch.sh_ 
