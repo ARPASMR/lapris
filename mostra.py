@@ -28,9 +28,9 @@ def execute_bash(file):
     import subprocess
     cmd='./recupero.sh '+file
     try:
-        subprocess.run (cmd)
+        subprocess.run (["./recupero.sh",file])
     except:
-        print('Something went wrong with recupera.sh')
+        print('Something went wrong with recupero.sh')
     return   
 if __name__=="__main__":
     app.run(host='0.0.0.0',port=8891,debug=True)
