@@ -26,7 +26,7 @@ def form():
     return render_template('form.html')
 def execute_bash(file):
     import subprocess
-    cmd='./recupera.sh'+file
+    cmd='./recupero.sh '+file
     try:
         subprocess.run (cmd)
     except:
