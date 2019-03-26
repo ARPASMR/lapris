@@ -1,5 +1,5 @@
 FROM arpasmr/r-base as intermediate
-RUN apt-get update
+RUN apt-get update --fix-missing
 #ENV http_proxy=http://meteo:%meteo2010@proxy2.arpa.local:8080
 #ENV https_proxy=https://meteo:%meteo2010@proxy2.arpa.local:8080
 RUN apt-get install -y s3cmd
