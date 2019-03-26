@@ -27,7 +27,7 @@ def form():
 def execute_bash(richiesta):
     import subprocess
     try:
-        subprocess.run (["./recupero.sh",richiesta[0],richiesta[1],richiesta[2],richiesta[3],richiesta[4])
+        subprocess.run (["./recupero.sh",richiesta[0],richiesta[1],richiesta[2],richiesta[3],richiesta[4]])
     except:
         print('Something went wrong with recupero.sh')
     return   
