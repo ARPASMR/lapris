@@ -1,5 +1,5 @@
 debug=true
-window_size=800,600
+window_size=1280,960
 file_of_filenames=./static/fof.txt
 num_frames=9
 wheel_frames = true
