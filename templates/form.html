@@ -1,10 +1,14 @@
 <!doctype html>
 <html>
 <body>
+    Creazione delle cumulate prisma per data arbitraria:<br>
+    Istruzioni:<br>
+    inserire nei campi del form i dati di interesse<br>
     <form action ="{{ var}}" method="post">
-            Data di inizio (AAAAMMGG): <input type="text" name="glon"><br>
-            ore di cumulo: <input type="text" name="ore"><br>
-            shape file: <input type="text" name="shapefile"><br>
+            Data di inizio (AAAAMMGG): <input type="text" name="data"><br>
+            Ora di inizio (HH): <input type="text" name="orai"><br>
+            ore di cumulo (HH): <input type="text" name="ore"><br>
+            shape file (senza estensione .shp): <input type="text" name="shapefile"><br>
             label: <input type="text" name="label"><br>
         <button type="submit">Submit</button>
     </form>

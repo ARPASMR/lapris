@@ -15,20 +15,19 @@ def hello():
 @app.route("/form/", methods=['GET', 'POST'])
 def form():
     if request.method == 'POST':
-        glon = request.form['glon']
+        data = request.form['data']
+        orai=request.form['orai']
         ore=request.form['ore']
         shapefile=request.form['shapefile']
         label=request.form['label']
-        #glat = request.form['glat']
-        stringa=glon+" "+ore+" "+shapefile+" "+label
+        stringa=[data,orai,ore,shapefile,label]
         execute_bash(stringa)
         return "eseguito!"
     return render_template('form.html')
-def execute_bash(file):
+def execute_bash(richiesta):
     import subprocess
-    cmd='./recupero.sh '+file
     try:
-        subprocess.run (["./recupero.sh",file])
+        subprocess.run (["./recupero.sh",richiesta[0],richiesta[1],richiesta[2],richiesta[3],richiesta[4]])
     except:
         print('Something went wrong with recupero.sh')
     return   
