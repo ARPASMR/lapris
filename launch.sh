@@ -33,6 +33,7 @@ do
    $S3CMD put *.png s3://prisma
    mv Composizione_*.png static/
   fi
+  find ./static/*.png -mtime +7 -exec rm {} \;
   ls -L ./static/*.png > ./static/fof.txt
   find *.log -mtime +7 -exec rm {} \;
   find dati/*.txt -mtime +7 -exec rm {} \;
