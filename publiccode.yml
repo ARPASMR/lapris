@@ -14,6 +14,8 @@ maintenance:
   type: internal
   contacts:
     - name: Mauro Mussin
+    - name: Marta Salvati
+    - name: Matteo Zanetti
 legal:
   license: AGPL-3.0-or-later
   mainCopyrightOwner: 'ARPA Lombardia Servizio Meteorologico e Rete IdroMeteo Regionale '
