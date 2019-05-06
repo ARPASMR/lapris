@@ -17,7 +17,7 @@ maintenance:
     - name: Marta Salvati
     - name: Matteo Zanetti
 legal:
-  license: GPL-3.0-or-later
+  license: AGPL-3.0-or-later
   mainCopyrightOwner: 'ARPA Lombardia Servizio Meteorologico e Rete IdroMeteo Regionale '
   repoOwner: 'ARPA Lombardia Servizio Meteorologico e Rete IdroMeteo Regionale '
 intendedAudience:
