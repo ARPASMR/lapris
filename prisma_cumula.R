@@ -98,7 +98,7 @@ if(file_test("-f",rstr)){
 #elaborazione per definire il raster somma
 
 n_ore_mod <- n_ore - 1 #Sommo il numero di ore scelte in base all'orario di partenza (che già contiene la cumulata di 1 ora)
-
+n_mancanti=0
 for (ore in 1:as.numeric(n_ore_mod)) {
 	print(ore)
 	data_inizio <- as.POSIXct(strptime(stringa_data_e_ora,"%Y%m%d%H"),"GMT")
@@ -107,9 +107,14 @@ for (ore in 1:as.numeric(n_ore_mod)) {
 	print(data_fine)
 	stringa_data_incremento<-format(data_fine,"%Y%m%d%H")
 	rstr<-paste("dati/","cumulata_oraria_prisma_",stringa_data_incremento,".txt",sep="")
-	print(rstr)
-	rstr_finale <- rstr_finale +  raster(rstr)
-	}
+	if (file.exists(rstr)){
+		print(rstr)
+		rstr_finale <- rstr_finale +  raster(rstr)
+		} else {
+		print ("file non esistente",rstr)
+	        n_mancanti=n_mancanti+1
+		}
+	} 
 
 
 data_fine_mod <- data_fine + 60*60 #aggiungo un'ora per necessità grafiche del titolo (più comprensibile per il periodo di cumulazione)
@@ -120,7 +125,7 @@ png(filename=paste("dati_su_area_",stringa_data_e_ora,"_",n_ore,".png",sep=""), 
 plot(rstr_finale, breaks=classi, col = scala_colore, legend = FALSE, axes = FALSE)
 plot(shp, add=TRUE)
 plot(rstr_finale, breaks=classi_legenda, legend.only=TRUE, col=scala_colore, legend.width=1, legend.shrink=1, axis.args=list(at=classi_legenda,labels=labels, tick=FALSE, cex.axis=1.8))
-title(main=paste("Precipitazioni cumulate dal", data_inizio,"al",data_fine_mod," (UTC)"),adj=0, cex.main=2.2)
+title(main=paste("Precipitazioni cumulate dal", data_inizio,"al",data_fine_mod," (UTC)",n_ore_mod-n_mancanti,"/",n_ore_mod),adj=0, cex.main=2.2)
 dev.off()
 
 #calcolo Medie e percentili su Area
@@ -168,7 +173,7 @@ dev.off()
 png(filename=paste("Media_su_area_",stringa_data_e_ora,"_",n_ore,".png",sep=""),width=1600, height=1200)
 par(mar=c(2.1,8.1,2.1,2.1)) #Margini del grafico
 plot(shp,col=scala_colore[findInterval(shp@data$MEDIA,classi)])
-title(main=paste("Media precipitazioni cumulate dal", data_inizio,"al",data_fine_mod," (UTC)"),adj=0, cex.main=2.2)
+title(main=paste("Media precipitazioni cumulate dal", data_inizio,"al",data_fine_mod," (UTC)",n_ore_mod-n_mancanti,"/",n_ore_mod),adj=0, cex.main=2.2)
 plot(rstr_finale, breaks=classi_legenda, legend.only=TRUE, col=scala_colore, legend.width=1, legend.shrink=1, axis.args=list(at=classi_legenda,labels=labels, tick=FALSE, cex.axis=1.8))
 invisible(text(coordinates(shp), labels=as.character(shp[[nome_aree]]), cex=1.5))
 pushViewport(viewport(y=.75,x=.10, height=0.5)) #Posizionamento tabella
@@ -178,7 +183,7 @@ dev.off()
 png(filename=paste("Massimo_su_area_",stringa_data_e_ora,"_",n_ore,".png",sep=""),width=1600, height=1200)
 par(mar=c(2.1,8.1,2.1,2.1)) #Margini del grafico
 plot(shp,col=scala_colore[findInterval(shp@data$MAX,classi)])
-title(main=paste("Massimo precipitazioni cumulate dal", data_inizio,"al",data_fine_mod," (UTC)"),adj=0, cex.main=2.2)
+title(main=paste("Massimo precipitazioni cumulate dal", data_inizio,"al",data_fine_mod," (UTC)",n_ore_mod-n_mancanti,"/",n_ore_mod),adj=0, cex.main=2.2)
 plot(rstr_finale, breaks=classi_legenda, legend.only=TRUE, col=scala_colore, legend.width=1, legend.shrink=1, axis.args=list(at=classi_legenda,labels=labels, tick=FALSE, cex.axis=1.8))
 invisible(text(coordinates(shp), labels=as.character(shp[[nome_aree]]), cex=1.5))
 table <- table[order(-table$MAX),] #Ordinamento in base al massimo
