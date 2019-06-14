@@ -3,7 +3,7 @@
 # shp contenuti in sottodirectory dir info 
 # 
 
-.libPaths(c("C:/Users/mazanetti/Documents/R/win-library/3.6"))
+#.libPaths(c("C:/Users/mazanetti/Documents/R/win-library/3.6"))
 
 # librerie richieste
 library(raster)
