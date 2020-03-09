@@ -1,0 +1,61 @@
+publiccodeYmlVersion: '0.2'
+name: Lapris
+releaseDate: '2019-01-01'
+url: 'https://github.com/ARPASMR/lapris'
+developmentStatus: stable
+softwareType: standalone/web
+platforms:
+  - web
+categories:
+  - data-analytics
+  - data-collection
+  - data-visualization
+maintenance:
+  type: internal
+  contacts:
+    - name: Mauro Mussin
+    - name: Marta Salvati
+    - name: Matteo Zanetti
+legal:
+  license: AGPL-3.0-or-later
+  mainCopyrightOwner: 'ARPA Lombardia Servizio Meteorologico e Rete IdroMeteo Regionale '
+  repoOwner: 'ARPA Lombardia Servizio Meteorologico e Rete IdroMeteo Regionale '
+intendedAudience:
+  scope:
+    - energy
+    - research
+    - science-and-technology
+  countries:
+    - it
+localisation:
+  localisationReady: false
+  availableLanguages:
+    - it
+it:
+  countryExtensionVersion: '0.2'
+  riuso:
+    codiceIPA: arpa_mi
+description:
+  it:
+    genericName: Lapris
+    shortDescription: Aggregazione stime di precipitazione prodotte dal processo prisma
+    longDescription: >
+      Progetto obiettivo 2018 LAmpinet e PRISma - Fase 4
+
+      L'applicazione consente di aggregare le stime di precipitazione  prodotte
+      dal processo prisma (interpolazione ottimale di radar e  pluviometri su
+      grigliato UTM 1km x 1km) su aree a scelta dell'utente  utilizzando media e
+      percentili standard (min, 10, 25, 50, 75, 90, max).
+
+      In  output fornisce 4 immagini: 
+
+      - campo totale cumulato in overlay con le  areee scelte;
+
+      - media su aree scelte;
+
+      - massimo su aree scelte;
+
+      - tabella con valori dei percentili sulle aree scelte.
+    features:
+      - Aggregazione stime precipitazione
+      - Selezione area di interesse
