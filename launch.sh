@@ -5,7 +5,7 @@
 # 3. copiare le immagioni su minio
 # 4. far vedere le immagini
 S3CMD='s3cmd --config=config_minio.txt'
-./launch_flash.sh & 
+./launch_flask.sh & 
 # copio i file presenti in minio (solo ultima settimana)
 $S3CMD ls s3://prisma/Composizione* > elenco.txt
 tail -n 8 elenco.txt > elenco1.txt
