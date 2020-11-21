@@ -24,4 +24,5 @@ RUN mkdir static
 RUN mkdir static/js
 COPY static/*.txt static/
 COPY static/js/* static/js/
+EXPOSE 8891/tcp
 #CMD [".launch.sh","7200"]
